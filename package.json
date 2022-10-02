@@ -1,7 +1,7 @@
 {
-	"version": "0.1.11",
+	"version": "0.1.0",
 	"private": false,
-	"name": "use-notification-test",
+	"name": "use-toast-notification",
 	"description": "Customizable react notification toast hook",
 	"author": "Itunu Lamina",
 	"keywords": [
