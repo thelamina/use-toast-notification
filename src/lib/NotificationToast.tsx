@@ -34,9 +34,9 @@ type NotificationContextType = {
 	remove?: (id: number) => void;
 };
 
-export const NotificationContext = createContext<
-	NotificationContextType | undefined
->(undefined);
+const NotificationContext = createContext<NotificationContextType | undefined>(
+	undefined
+);
 
 /**
  **  Notification component to be imported from components
@@ -243,7 +243,7 @@ interface NotificationProviderProps {
 	config: configType;
 }
 
-const NotificationProvider: FC<NotificationProviderProps> = (props) => {
+export const NotificationProvider: FC<NotificationProviderProps> = (props) => {
 	const { children, config } = props;
 
 	const configDefault: Required<configType> = {
@@ -328,7 +328,7 @@ const NotificationProvider: FC<NotificationProviderProps> = (props) => {
 	}, []);
 
 	return (
-		<NotificationContext.Provider value={{ show, remove }}>
+		<NotificationContext.Provider value={{ show }}>
 			<>{children}</>
 			<div
 				className={classnames(
@@ -364,5 +364,3 @@ export const useNotification = () => {
 
 	return context;
 };
-
-export default NotificationProvider;

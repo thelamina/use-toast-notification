@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import './index.css';
-import NotificationProvider from './lib/NotificationToast';
+import NotificationProvider from './lib';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
@@ -12,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 				showClose: true,
 				showIcon: false,
 				showTitle: true,
-				duration: 30,
+				duration: 20,
 			}}
 		>
 			<App />
