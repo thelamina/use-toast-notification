@@ -9,16 +9,16 @@ jobs:
     release:
         runs-on: ubuntu-latest
         steps:
-            # Checkout project repository
-            - name: Checkout
-              uses: actions/checkout@v2.3.4
+            
+            - name: Checkout # Checkout project repository
+              uses: actions/checkout@v3
 
             # Setup Node.js environment
             - name: Setup Node.js
-              uses: actions/setup-node@v2
+              uses: actions/setup-node@v3
               with:
                   registry-url: https://registry.npmjs.org/
-                  node-version: '17'
+                  node-version: 16
 
             # Install dependencies (required by Run tests step)
             - name: Install dependencies
