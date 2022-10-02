@@ -1,5 +1,5 @@
 {
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"private": false,
 	"name": "use-toast-notification",
 	"description": "Customizable react notification toast hook",
