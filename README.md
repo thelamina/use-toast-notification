@@ -1,18 +1,18 @@
-# 📦 use-notification-toast
+# 📦 use-toast-notification
 
 React hooks library to display notification toast.
 
-[![NPM](https://img.shields.io/npm/v/use-notification-test.svg)](https://www.npmjs.com/package/use-notification-toast)
-[![npm](https://img.shields.io/npm/dm/use-notification-toast.svg)](https://www.npmjs.com/package/use-notification-toast)
+[![NPM](https://img.shields.io/npm/v/use-toast-notification.svg)](https://www.npmjs.com/package/use-toast-notification)
+[![npm](https://img.shields.io/npm/dm/use-toast-notification.svg)](https://www.npmjs.com/package/use-toast-notification)
 
 ## Install
 
 ```sh
-npm install use-notification-toast
+npm install use-toast-notification
 
 # or
 
-yarn add use-notification-toast
+yarn add use-toast-notification
 ```
 
 <br />
@@ -24,7 +24,7 @@ yarn add use-notification-toast
 
 ```tsx
 import React from 'react'
-import NotificationProvider, { useNotification } from 'use-notification-toast'
+import NotificationProvider, { useNotification } from 'use-toast-notification'
 
 const App = () => {
   const notification = useNotification()
@@ -88,7 +88,7 @@ You can customize your notification toast
 
 ```tsx
 import React from 'react'
-import NotificationProvider from 'use-notification-toast'
+import NotificationProvider from 'use-toast-notification'
 
 const App = () => {
   ...

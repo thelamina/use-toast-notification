@@ -14,7 +14,7 @@ export default defineConfig({
 		lib: {
 			entry: path.resolve(__dirname, 'src/lib/index.ts'),
 			name: 'ReactFeatureFlag',
-			fileName: (format) => `use-notification-toast.${format}.js`,
+			fileName: (format) => `use-toast-notification.${format}.js`,
 		},
 		rollupOptions: {
 			external: ['react'],

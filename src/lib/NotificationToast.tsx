@@ -5,34 +5,17 @@ import React, {
 	useEffect,
 	useState,
 } from 'react';
+
+import { classnames } from './utils';
+import {
+	INotification,
+	NotificationCard,
+	NotificationContextType,
+	NotificationProps,
+	NotificationProviderProps,
+	IConfig,
+} from './types';
 import styles from './index.module.css';
-
-const classnames = (...classes: string[]) => {
-	return classes.filter(Boolean).join(' ');
-};
-
-interface INotification {
-	variant?: 'error' | 'success' | 'info';
-	title?: string;
-	message: React.ReactNode;
-	duration?: number;
-}
-
-interface NotificationCard extends INotification {
-	id: number;
-	expiresAt?: Date;
-}
-
-interface NotificationProps {
-	notification: NotificationCard;
-	config: Required<configType>;
-	remove: (id: number) => void;
-}
-
-type NotificationContextType = {
-	show: (value: INotification) => number;
-	remove?: (id: number) => void;
-};
 
 const NotificationContext = createContext<NotificationContextType | undefined>(
 	undefined
@@ -49,52 +32,6 @@ const NotificationContext = createContext<NotificationContextType | undefined>(
 
 const Notification: FC<NotificationProps> = (props) => {
 	const { notification, config, remove: removeNotification } = props;
-	const getStyle = (
-		variant?: string
-	): {
-		iconColor: string;
-		container: string;
-		title: string;
-		body: string;
-	} => {
-		switch (variant) {
-			case 'error':
-				return {
-					iconColor: 'red',
-					container: 'border-l-red-600',
-					title: 'text-red-600',
-					body: 'text-red-600',
-				};
-				break;
-
-			case 'success':
-				return {
-					iconColor: 'green',
-					container: 'border-l-green-600',
-					title: 'text-green-600',
-					body: 'text-green-600',
-				};
-				break;
-
-			case 'info':
-				return {
-					iconColor: 'indigo',
-					container: 'border-l-indigo-600',
-					title: 'text-indigo-600',
-					body: 'text-indigo-600',
-				};
-
-				break;
-
-			default:
-				return {
-					iconColor: '',
-					container: '',
-					title: '',
-					body: '',
-				};
-		}
-	};
 
 	const {
 		closeIcon,
@@ -111,15 +48,8 @@ const Notification: FC<NotificationProps> = (props) => {
 		messageClassName,
 	} = config;
 
-	console.log(config);
-
 	return (
-		<div
-			className={classnames(
-				getStyle(notification.variant).container,
-				styles.cardBody
-			)}
-		>
+		<div className={classnames(styles.cardBody)}>
 			<div className={styles.cardContent}>
 				{showTitle && (
 					<div className={styles.cardHead}>
@@ -211,42 +141,10 @@ const Notification: FC<NotificationProps> = (props) => {
 	);
 };
 
-type positionTypes =
-	| 'top-left'
-	| 'top-right'
-	| 'bottom-left'
-	| 'bottom-right'
-	| 'top-center'
-	| 'bottom-center'
-	| 'center';
-
-type configType = Partial<{
-	position: positionTypes;
-	duration: number;
-	showClose: boolean;
-	showTitle: boolean;
-	containerClassName: string;
-	errorColor: string;
-	successColor: string;
-	infoColor: string;
-	titleClassName: string;
-	messageClassName: string;
-	showIcon: boolean;
-	closeIcon: React.ReactNode;
-	successIcon: React.ReactNode;
-	errorIcon: React.ReactNode;
-	infoIcon: React.ReactNode;
-}>;
-
-interface NotificationProviderProps {
-	children: React.ReactNode;
-	config: configType;
-}
-
 export const NotificationProvider: FC<NotificationProviderProps> = (props) => {
-	const { children, config } = props;
+	const { config, children } = props;
 
-	const configDefault: Required<configType> = {
+	const configDefault: Required<IConfig> = {
 		showClose: false,
 		showTitle: false,
 		position: 'top-right',
@@ -289,8 +187,6 @@ export const NotificationProvider: FC<NotificationProviderProps> = (props) => {
 		const expiresAt = new Date();
 		const secondsToAdd = value.duration;
 		expiresAt.setSeconds(expiresAt.getSeconds() + secondsToAdd);
-
-		console.log(value);
 
 		const notification: NotificationCard = {
 			...value,
@@ -351,7 +247,6 @@ export const NotificationProvider: FC<NotificationProviderProps> = (props) => {
 
 /**
  * Notification hook
- *
  */
 export const useNotification = () => {
 	const context = React.useContext(NotificationContext);
