@@ -11,10 +11,10 @@ jobs:
             - name: Setup Node
               uses: actions/setup-node@v3
               with:
-                  node-version: '14.x'
+                  node-version: '17.x'
                   registry-url: 'https://registry.npmjs.org'
             - name: Install dependencies and build 🔧
-              run: yarn install && yarn build
+              run: yarn && yarn build
             - name: Publish package on NPM 📦
               run: npm publish
               env:
