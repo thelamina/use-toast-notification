@@ -35,8 +35,7 @@
 	},
 	"dependencies": {
 		"react": "^18.2.0",
-		"react-dom": "^18.2.0",
-		"use-notification-test": "^0.1.11"
+		"react-dom": "^18.2.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.19.3",
