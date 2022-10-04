@@ -8,10 +8,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
 		<NotificationProvider
 			config={{
-				position: 'top-left',
-				showClose: true,
+				position: 'top-right',
+				isCloseable: false,
 				showTitle: true,
-				duration: 10,
+				showIcon: true,
+				duration: 5,
 			}}
 		>
 			<App />

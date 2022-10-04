@@ -1,5 +1,5 @@
 {
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"private": false,
 	"name": "use-toast-notification",
 	"description": "Customizable react notification toast hook",
@@ -35,10 +35,10 @@
 	},
 	"dependencies": {
 		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"react-dom": "^18.2.0",
+		"use-toast-notification": "^0.1.1"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.19.3",
 		"@types/react": "^18.0.17",
 		"@types/react-dom": "^18.0.6",
 		"@vitejs/plugin-react": "^2.1.0",

@@ -1,9 +1,13 @@
+import { positionStyles, styles } from '../utils';
+
 export interface INotification {
-	variant?: 'error' | 'success' | 'info';
+	variant?: variantTypes;
 	title?: string;
 	message: React.ReactNode;
 	duration?: number;
 }
+
+export type variantTypes = 'error' | 'success' | 'info';
 
 export interface NotificationCard extends INotification {
 	id: number;
@@ -14,6 +18,7 @@ export interface NotificationProps {
 	notification: NotificationCard;
 	config: Required<IConfig>;
 	remove: (id: number) => void;
+	styles: typeof styles & typeof positionStyles;
 }
 
 export type NotificationContextType = {
@@ -30,17 +35,24 @@ export type positionTypes =
 	| 'bottom-center'
 	| 'center';
 
+export type stylesProperties =
+	| 'container'
+	| 'cardContent'
+	| 'icon'
+	| 'closeButton'
+	| 'cardContainer'
+	| 'cardIcon'
+	| 'cardTitle'
+	| 'cardMessage';
+
 export type IConfig = Partial<{
 	position: positionTypes;
 	duration: number;
-	showClose: boolean;
+	isCloseable: boolean;
 	showTitle: boolean;
-	containerClassName: string;
 	errorColor: string;
 	successColor: string;
 	infoColor: string;
-	titleClassName: string;
-	messageClassName: string;
 	showIcon: boolean;
 	closeIcon: React.ReactNode;
 	successIcon: React.ReactNode;
@@ -50,5 +62,6 @@ export type IConfig = Partial<{
 
 export interface NotificationProviderProps {
 	children: React.ReactNode;
-	config: IConfig;
+	config?: IConfig;
+	overrideStyles?: Partial<typeof styles>;
 }

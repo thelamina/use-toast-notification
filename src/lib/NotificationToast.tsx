@@ -6,7 +6,7 @@ import React, {
 	useState,
 } from 'react';
 
-import { classnames } from './utils';
+import { classnames, styles as defaultStyles, positionStyles } from './utils';
 import {
 	INotification,
 	NotificationCard,
@@ -15,7 +15,6 @@ import {
 	NotificationProviderProps,
 	IConfig,
 } from './types';
-import styles from './index.module.css';
 
 const NotificationContext = createContext<NotificationContextType | undefined>(
 	undefined
@@ -31,102 +30,104 @@ const NotificationContext = createContext<NotificationContextType | undefined>(
  */
 
 const Notification: FC<NotificationProps> = (props) => {
-	const { notification, config, remove: removeNotification } = props;
+	const { notification, styles, config, remove: removeNotification } = props;
 
 	const {
 		closeIcon,
 		successIcon,
 		errorIcon,
 		infoIcon,
-		showClose,
+		isCloseable,
 		showTitle,
 		showIcon,
 		successColor,
 		errorColor,
 		infoColor,
-		titleClassName,
-		messageClassName,
+		position,
 	} = config;
 
 	return (
-		<div className={classnames(styles.cardBody)}>
-			<div className={styles.cardContent}>
-				{showTitle && (
-					<div className={styles.cardHead}>
-						{showIcon && (
-							<span className={styles.icon}>
-								{notification.variant === 'success' &&
-									(successIcon ?? (
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											viewBox='0 0 24 24'
-											fill={successColor}
-										>
-											<path
-												fillRule='evenodd'
-												d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z'
-												clipRule='evenodd'
-											/>
-										</svg>
-									))}
+		<div style={{ ...styles.cardContainer }}>
+			<div style={styles.cardContent}>
+				{showIcon && (
+					<span style={{ ...styles.cardIcon, ...styles.icon }}>
+						{notification.variant === 'success' &&
+							(successIcon ?? (
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									viewBox='0 0 24 24'
+									fill={successColor}
+								>
+									<path
+										fillRule='evenodd'
+										d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z'
+										clipRule='evenodd'
+									/>
+								</svg>
+							))}
 
-								{notification.variant === 'error' &&
-									(errorIcon ?? (
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											viewBox='0 0 24 24'
-											fill={errorColor}
-										>
-											<path
-												fillRule='evenodd'
-												d='M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z'
-												clipRule='evenodd'
-											/>
-										</svg>
-									))}
+						{notification.variant === 'error' &&
+							(errorIcon ?? (
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									viewBox='0 0 24 24'
+									fill={errorColor}
+								>
+									<path
+										fillRule='evenodd'
+										d='M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z'
+										clipRule='evenodd'
+									/>
+								</svg>
+							))}
 
-								{notification.variant === 'info' &&
-									(infoIcon ?? (
-										<svg
-											xmlns='http://www.w3.org/2000/svg'
-											viewBox='0 0 24 24'
-											fill={infoColor}
-										>
-											<path
-												fillRule='evenodd'
-												d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z'
-												clipRule='evenodd'
-											/>
-										</svg>
-									))}
-							</span>
-						)}
-						<h4
-							className={classnames(
-								styles.cardTitle,
-								titleClassName
-							)}
-						>
+						{notification.variant === 'info' &&
+							(infoIcon ?? (
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									viewBox='0 0 24 24'
+									fill={infoColor}
+								>
+									<path
+										fillRule='evenodd'
+										d='M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z'
+										clipRule='evenodd'
+									/>
+								</svg>
+							))}
+					</span>
+				)}
+
+				<div>
+					{showTitle && (
+						<h4 style={styles.cardTitle}>
 							{notification.title ||
 								notification.variant?.toLocaleLowerCase()}
 						</h4>
-					</div>
-				)}
-				<p className={classnames(styles.cardMessage, messageClassName)}>
-					{notification.message}
-				</p>
+					)}
+
+					<p
+						style={{
+							left: !showTitle ? 0 : '-1.6rem',
+							...styles.cardMessage,
+						}}
+					>
+						{notification.message}
+					</p>
+				</div>
 			</div>
 
-			{showClose && (
+			{isCloseable && (
 				<button
-					className={classnames(styles.icon, styles.closeButton)}
+					style={{ ...styles.icon, ...styles.closeButton }}
 					onClick={() => removeNotification(notification.id)}
 				>
 					{closeIcon ?? (
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							viewBox='0 0 20 20'
-							fill='#fff'
+							fill='#000'
+							color='#fff'
 						>
 							<path
 								fillRule='evenodd'
@@ -142,19 +143,16 @@ const Notification: FC<NotificationProps> = (props) => {
 };
 
 export const NotificationProvider: FC<NotificationProviderProps> = (props) => {
-	const { config, children } = props;
+	const { config, overrideStyles, children } = props;
 
 	const configDefault: Required<IConfig> = {
-		showClose: false,
+		isCloseable: false,
 		showTitle: false,
 		position: 'top-right',
 		duration: 10,
 		errorColor: 'red',
 		successColor: 'green',
 		infoColor: 'blue',
-		containerClassName: '',
-		titleClassName: '',
-		messageClassName: '',
 		closeIcon: null,
 		successIcon: null,
 		errorIcon: null,
@@ -167,13 +165,37 @@ export const NotificationProvider: FC<NotificationProviderProps> = (props) => {
 		...config,
 	};
 
+	const styling = {
+		...positionStyles,
+		container: { ...defaultStyles.container, ...overrideStyles?.container },
+		cardContainer: {
+			...defaultStyles.cardContainer,
+			...overrideStyles?.cardContainer,
+		},
+		cardContent: {
+			...defaultStyles.cardContent,
+			...overrideStyles?.cardContent,
+		},
+		cardIcon: { ...defaultStyles.cardIcon, ...overrideStyles?.cardIcon },
+		cardMessage: {
+			...defaultStyles.cardMessage,
+			...overrideStyles?.cardMessage,
+		},
+		cardTitle: { ...defaultStyles.cardTitle, ...overrideStyles?.cardTitle },
+		closeButton: {
+			...defaultStyles.closeButton,
+			...overrideStyles?.closeButton,
+		},
+		icon: { ...defaultStyles.icon, ...overrideStyles?.icon },
+	};
+
 	const [notifications, setNotifications] = useState<NotificationCard[]>([]);
 
 	// Show Notification
 	const show = useCallback((data: INotification) => {
 		const defaultData: Required<INotification> = {
 			variant: 'info',
-			duration: config.duration || 5,
+			duration: config?.duration || 5,
 			message: '',
 			title: '',
 		};
@@ -227,13 +249,14 @@ export const NotificationProvider: FC<NotificationProviderProps> = (props) => {
 		<NotificationContext.Provider value={{ show }}>
 			<>{children}</>
 			<div
-				className={classnames(
-					styles.container,
-					styles[configData.position]
-				)}
+				style={{
+					...styling.container,
+					...styling[configData.position],
+				}}
 			>
 				{notifications.map((notification) => (
 					<Notification
+						styles={styling}
 						config={configData}
 						key={notification.id}
 						notification={notification}
