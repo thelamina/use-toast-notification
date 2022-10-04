@@ -1210,6 +1210,14 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
+use-toast-notification@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/use-toast-notification/-/use-toast-notification-0.1.1.tgz#6abad23f3a9ea778963c4151e854ad813f1491bd"
+  integrity sha512-Sso9NB7UrNj1836/AovwzcrQUjWmG/EYep0qnB7OpTUYY1BEqZ8SoVx6H2uDOjTCo7CmKe9ac3rGLWkoPGNY4w==
+  dependencies:
+    react "^18.2.0"
+    react-dom "^18.2.0"
+
 validator@^13.7.0:
   version "13.7.0"
   resolved "https://registry.yarnpkg.com/validator/-/validator-13.7.0.tgz#4f9658ba13ba8f3d82ee881d3516489ea85c0857"

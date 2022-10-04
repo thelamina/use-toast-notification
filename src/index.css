@@ -26,10 +26,10 @@ a:hover {
 
 body {
 	margin: 0;
-	display: flex;
+	/* display: flex;
 	place-items: center;
 	min-width: 320px;
-	min-height: 100vh;
+	min-height: 100vh; */
 }
 
 h1 {
@@ -47,6 +47,7 @@ h1 {
 	background-color: #1a1a1a;
 	cursor: pointer;
 	transition: border-color 0.25s;
+	margin: 8px;
 }
 .button:hover {
 	border-color: #646cff;
