@@ -129,6 +129,7 @@ export default Main
 | --------------------- | ------------- | ------------| -------------------------------------------------------------|
 | position              | String        | 'top-right' | The position of the card                                     |
 | duration              | Number        |      5      | The duration in seconds                                      |
+| animationDuration     | Number        |     300     | The animation duration in milliseconds                       |
 | isCloseable           | Boolean       | false       | Toggle close button                                          |
 | showIcon              | Boolean       | true        | Toggle card heading icon                                     |
 | showTitle             | Boolean       | true        | Toggle card heading (icon and title) button                  |
@@ -157,6 +158,8 @@ export default Main
 | cardMessage           | CSSProperties    | The style for the message of the notification                    |
 | cardIcon              | CSSProperties    | The style for the icons container                                |
 | cardTitle             | CSSProperties    | The style for the title of the notification                      |
+| animateIn             | CSSProperties    | The animation properties for displaying the notification         |
+| animateOut            | CSSProperties    | The animation properties for removing the notification           |
 
 
 ## License

@@ -7,7 +7,7 @@ function App() {
 
 	const handleShow = (variant: variantTypes) => {
 		notification.show({
-			message: 'Click on the Vite and React logos to learn more sadasd a dfkaj djka fkja fjad jv sjkf kjs fv',
+			message: 'This is a sample Notification content displayed',
 			variant,
 		});
 	};

@@ -12,6 +12,7 @@ export type variantTypes = 'error' | 'success' | 'info';
 export interface NotificationCard extends INotification {
 	id: number;
 	expiresAt?: Date;
+	animate: boolean;
 }
 
 export interface NotificationProps {
@@ -43,11 +44,14 @@ export type stylesProperties =
 	| 'cardContainer'
 	| 'cardIcon'
 	| 'cardTitle'
+	| 'animateIn'
+	| 'animateOut'
 	| 'cardMessage';
 
 export type IConfig = Partial<{
 	position: positionTypes;
 	duration: number;
+	animationDuration: number;
 	isCloseable: boolean;
 	showTitle: boolean;
 	errorColor: string;
