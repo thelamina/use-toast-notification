@@ -31,6 +31,7 @@ const NotificationContext = createContext<NotificationContextType | undefined>(
 
 const Notification: FC<NotificationProps> = (props) => {
 	const { notification, styles, config, remove: removeNotification } = props;
+	const [isVisible, setIsVisible] = useState(false);
 
 	const {
 		closeIcon,
@@ -46,8 +47,30 @@ const Notification: FC<NotificationProps> = (props) => {
 		position,
 	} = config;
 
+	useEffect(() => {
+		let hiddenClassTimer: NodeJS.Timeout;
+
+		if (notification.animate) {
+			hiddenClassTimer = setTimeout(() => {
+				setIsVisible(true);
+			}, config.animationDuration);
+		} else {
+			setIsVisible(false);
+		}
+
+		return () => {
+			clearTimeout(hiddenClassTimer);
+		};
+	}, [notification.animate]);
+
 	return (
-		<div style={{ ...styles.cardContainer }}>
+		<div
+			style={{
+				...styles.cardContainer,
+				...(isVisible ? styles.animateIn : styles.animateOut),
+				transitionDuration: `${config.animationDuration}ms`,
+			}}
+		>
 			<div style={styles.cardContent}>
 				{showIcon && (
 					<span style={{ ...styles.cardIcon, ...styles.icon }}>
@@ -108,7 +131,7 @@ const Notification: FC<NotificationProps> = (props) => {
 
 					<p
 						style={{
-							left: !showTitle ? 0 : '-1.6rem',
+							left: !showTitle || !showIcon ? 0 : '-1.6rem',
 							...styles.cardMessage,
 						}}
 					>
@@ -144,10 +167,11 @@ const Notification: FC<NotificationProps> = (props) => {
 
 export const NotificationProvider: FC<NotificationProviderProps> = (props) => {
 	const { config, overrideStyles, children } = props;
+	const [watchNotification, setWatchNotification] = useState(0);
 
 	const configDefault: Required<IConfig> = {
 		isCloseable: false,
-		showTitle: false,
+		showTitle: true,
 		position: 'top-right',
 		duration: 10,
 		errorColor: 'red',
@@ -158,6 +182,7 @@ export const NotificationProvider: FC<NotificationProviderProps> = (props) => {
 		errorIcon: null,
 		infoIcon: null,
 		showIcon: true,
+		animationDuration: 500,
 	};
 
 	const configData = {
@@ -187,6 +212,8 @@ export const NotificationProvider: FC<NotificationProviderProps> = (props) => {
 			...overrideStyles?.closeButton,
 		},
 		icon: { ...defaultStyles.icon, ...overrideStyles?.icon },
+		animateIn: { ...defaultStyles.animateIn, ...overrideStyles?.animateIn },
+		animateOut: { ...defaultStyles.animateOut, ...overrideStyles?.icon },
 	};
 
 	const [notifications, setNotifications] = useState<NotificationCard[]>([]);
@@ -213,36 +240,60 @@ export const NotificationProvider: FC<NotificationProviderProps> = (props) => {
 		const notification: NotificationCard = {
 			...value,
 			id,
+			animate: true,
 			expiresAt: value.duration ? expiresAt : undefined,
 		};
 
-		setNotifications((current) => [...current, notification]);
+		setNotifications((current) => [
+			...current.map((c) => ({
+				...c,
+			})),
+			notification,
+		]);
+
 		return id;
 	}, []);
 
 	// Close notification
 	const remove = useCallback((id: number) => {
-		setNotifications((current) => current.filter((c) => c.id !== id));
+		setNotifications((current) => [
+			...current.map((c) => {
+				if (c.id === id) {
+					return {
+						...c,
+						animate: false,
+					};
+				}
+				return c;
+			}),
+		]);
+		setTimeout(() => {
+			setNotifications((current) => [
+				...current.filter((c) => {
+					return c.id !== id;
+				}),
+			]);
+		}, configData.animationDuration);
 	}, []);
 
 	useEffect(() => {
-		const intervalId = setInterval(
-			() =>
-				setNotifications((current) =>
-					current.filter((c) => {
-						if (!c.expiresAt) {
-							return true;
-						}
-						if (c.expiresAt > new Date()) {
-							return true;
-						}
-						return false;
-					})
-				),
-			1000
-		);
+		const intervalId = setInterval(() => {
+			setNotifications((current) =>
+				current.map((c) => {
+					if (!c.expiresAt || c.expiresAt > new Date()) {
+						return c;
+					} else {
+						remove(c.id);
+						return { ...c, animate: false };
+					}
+				})
+			);
+		}, 10);
+		console.count('here');
 
-		return () => clearInterval(intervalId);
+		return () => {
+			clearInterval(intervalId);
+		};
 	}, []);
 
 	return (

@@ -12,10 +12,8 @@ export const styles: Styles = {
 	},
 
 	cardContainer: {
-		borderLeft: '4px',
-		border: '4px solid',
-		transition: 'opacity 0.3s ease-in-out',
 		opacity: 1,
+		transition: 'all 0.3s cubic-bezier(.18,-0.27,.79,1.28)',
 		position: 'relative',
 		zIndex: 4,
 		margin: 0,
@@ -24,7 +22,6 @@ export const styles: Styles = {
 		padding: '0.6rem .6rem',
 		maxWidth: '32rem',
 		minWidth: '17rem',
-		
 		backgroundColor: '#fff',
 		color: '#000',
 	},
@@ -75,6 +72,14 @@ export const styles: Styles = {
 		zIndex: 999,
 		cursor: 'pointer',
 	},
+	animateIn: {
+		transform: 'translateY(0vw)',
+		opacity: 1,
+	},
+	animateOut: {
+		transform: 'translateY(-2vw)',
+		opacity: 0,
+	},
 };
 
 type positionStyleType = { [key in positionTypes]: React.CSSProperties };
@@ -107,11 +112,15 @@ export const positionStyles: positionStyleType = {
 	'top-center': {
 		margin: 'auto',
 		top: '3%',
+		left: '50%',
+		transform: 'translateX(-50%)',
 	},
 
 	'bottom-center': {
 		margin: 'auto',
 		bottom: '3%',
+		left: '50%',
+		transform: 'translateX(-50%)',
 	},
 
 	center: {

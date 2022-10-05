@@ -7,13 +7,16 @@ import NotificationProvider from './lib';
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
 		<NotificationProvider
-			config={{
-				position: 'top-right',
-				isCloseable: false,
-				showTitle: true,
-				showIcon: true,
-				duration: 5,
-			}}
+			config={
+				{
+					// position: 'top-center',
+					// isCloseable: false,
+					// showTitle: true,
+					// showIcon: true,
+					// duration: 10,
+					// animationDuration: 600,
+				}
+			}
 		>
 			<App />
 		</NotificationProvider>
